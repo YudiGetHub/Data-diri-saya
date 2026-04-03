@@ -110,43 +110,57 @@
             <h2 style="color: var(--primary); margin-top: 0;">Riwayat Pekerjaan</h2>
             <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
             
-            <div class="exp-item">
-                <h4>Staf Administrasi - PT Kovalen Mining</h4>
-                <span>2020 - 2025</span>
-                <p>Bertanggung jawab atas manajemen dokumen perusahaan, pengarsipan digital, serta mendukung operasional harian kantor dengan tingkat ketelitian tinggi.</p>
-            </div>
-
-            <div class="exp-item">
-                <h4>Kasir - Transmart Carrefour</h4>
-                <span>2020</span>
-                <p>Mengelola transaksi pembayaran pelanggan secara cepat dan akurat serta memberikan pelayanan konsumen yang prima.</p>
-            </div>
-
-            <div class="exp-item">
-                <h4>Pramuniaga - PT Aeon Mall BSD</h4>
-                <span>2019</span>
-                <p>Fokus pada pengelolaan inventaris produk dan memastikan kepuasan pelanggan di area retail.</p>
-            </div>
-
-            <div class="exp-item">
-                <h4>Magang Administrasi - Gramedia</h4>
-                <span>Masa Sekolah</span>
-                <p>Mendukung tim operasional dalam penataan produk dan administrasi dasar gudang/toko.</p>
-            </div>
-
-            <div class="exp-item">
-                <h4>Independent Developer & Project Manager</h4>
-                <span>Proyek Mandiri (Aktif)</span>
-                <p>Membangun aplikasi optimasi Android (Defender) dan sistem real-time menggunakan Firebase Firestore.</p>
+            <div id="riwayat-list">
+                <p style="text-align:center; color:#999;">Memuat riwayat pekerjaan...</p>
             </div>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Konfigurasi Firebase Milik Yudi
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8JJ5-_eLfev8PL5J1hUQpKyc8EVKQ7_k",
+            authDomain: "datadiri-saya.firebaseapp.com",
+            projectId: "datadiri-saya",
+            storageBucket: "datadiri-saya.firebasestorage.app",
+            messagingSenderId: "38066794822",
+            appId: "1:38066794822:web:cb97ebfc41dd53794c3547"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Fungsi Ambil Data Otomatis
+        const container = document.getElementById("riwayat-list");
+        
+        onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snapshot) => {
+            container.innerHTML = ""; // Bersihkan teks memuat
+            
+            if (snapshot.empty) {
+                container.innerHTML = "<p style='text-align:center;'>Belum ada data pengalaman kerja.</p>";
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                container.innerHTML += `
+                    <div class="exp-item">
+                        <h4>${data.posisi} - ${data.perusahaan}</h4>
+                        <span>${data.tahun}</span>
+                        <p>${data.deskripsi}</p>
+                    </div>`;
+            });
+        });
+
+        // Kontrol Modal (Fungsi Asli Anda)
         const modal = document.getElementById("expModal");
-        function openModal() { modal.style.display = "block"; document.body.style.overflow = "hidden"; }
-        function closeModal() { modal.style.display = "none"; document.body.style.overflow = "auto"; }
-        window.onclick = function(event) { if (event.target == modal) { closeModal(); } }
+        window.openModal = () => { modal.style.display = "block"; document.body.style.overflow = "hidden"; }
+        window.closeModal = () => { modal.style.display = "none"; document.body.style.overflow = "auto"; }
+        window.onclick = (e) => { if (e.target == modal) closeModal(); }
     </script>
 
 </body>
