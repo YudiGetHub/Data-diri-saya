@@ -58,28 +58,28 @@
 
     <div class="container">
         <div class="header">
-            <img src="https://i.ibb.co.com/bMnwxsWw/Whats-App-Image-2026-04-04-at-05-25-30.png" alt="Nur Wahyudi" class="profile-img">
-            <h1>NUR WAHYUDI</h1>
-            <p>Full-Stack Mobile Developer & Administration Professional</p>
+            <img id="main-foto" src="https://i.ibb.co.com/bMnwxsWw/Whats-App-Image-2026-04-04-at-05-25-30.png" alt="Nur Wahyudi" class="profile-img">
+            <h1 id="main-nama">NUR WAHYUDI</h1>
+            <p id="main-slogan">Full-Stack Mobile Developer & Administration Professional</p>
             
-            <div class="contact-bar">
-                <a href="mailto:Yudi02012001@gmail.com">📧 Email</a>
-                <a href="https://wa.me/62881024040191" target="_blank">💬 WA</a>
-                <a href="https://portofolio-nur-wahyudi.vercel.app/" target="_blank">🌐 Portfolio</a>
-                <a href="https://www.instagram.com/nurwahyudi_211" target="_blank">📸 IG</a>
-                <a href="https://www.facebook.com/yudiyng.menqerti" target="_blank">👥 FB</a>
+            <div class="contact-bar" id="main-socials">
+                <a href="mailto:Yudi02012001@gmail.com" id="link-email">📧 Email</a>
+                <a href="https://wa.me/62881024040191" target="_blank" id="link-wa">💬 WA</a>
+                <a href="https://portofolio-nur-wahyudi.vercel.app/" target="_blank" id="link-web">🌐 Portfolio</a>
+                <a href="https://www.instagram.com/nurwahyudi_211" target="_blank" id="link-ig">📸 IG</a>
+                <a href="https://www.facebook.com/yudiyng.menqerti" target="_blank" id="link-fb">👥 FB</a>
             </div>
         </div>
 
         <div class="content">
             <div class="section">
                 <h3 class="section-title">Tentang Saya</h3>
-                <p>Seorang profesional dengan latar belakang kuat di bidang administrasi dan pengembangan teknologi mobile. Memiliki pengalaman lebih dari 4 tahun dalam manajemen data, pengarsipan, dan layanan operasional. Terampil dalam manajemen keuangan serta pengembangan aplikasi berbasis React Native.</p>
+                <p id="main-bio">Memuat informasi profil...</p>
             </div>
 
             <div class="section">
                 <h3 class="section-title">Keahlian & Kompetensi</h3>
-                <div class="skill-container">
+                <div class="skill-container" id="skill-list">
                     <span class="skill-tag">Administrasi & Pengarsipan</span>
                     <span class="skill-tag">Manajemen Keuangan & Cash Flow</span>
                     <span class="skill-tag">Full-Stack Mobile Development</span>
@@ -117,11 +117,9 @@
     </div>
 
     <script type="module">
-        // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Konfigurasi Firebase Milik Yudi
         const firebaseConfig = {
             apiKey: "AIzaSyC8JJ5-_eLfev8PL5J1hUQpKyc8EVKQ7_k",
             authDomain: "datadiri-saya.firebaseapp.com",
@@ -134,17 +132,30 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Fungsi Ambil Data Otomatis
+        // --- 1. AMBIL DATA PROFIL UTAMA (NAMA, BIO, FOTO) ---
+        onSnapshot(doc(db, "settings", "profil"), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                if(data.nama) document.getElementById('main-nama').innerText = data.nama;
+                if(data.slogan) document.getElementById('main-slogan').innerText = data.slogan;
+                if(data.bio) document.getElementById('main-bio').innerText = data.bio;
+                if(data.foto) document.getElementById('main-foto').src = data.foto;
+                
+                // Update Link Sosmed jika ada di database
+                if(data.email) document.getElementById('link-email').href = "mailto:" + data.email;
+                if(data.wa) document.getElementById('link-wa').href = "https://wa.me/" + data.wa;
+                if(data.ig) document.getElementById('link-ig').href = "https://www.instagram.com/" + data.ig;
+            }
+        });
+
+        // --- 2. AMBIL DATA RIWAYAT PEKERJAAN ---
         const container = document.getElementById("riwayat-list");
-        
         onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snapshot) => {
-            container.innerHTML = ""; // Bersihkan teks memuat
-            
+            container.innerHTML = ""; 
             if (snapshot.empty) {
                 container.innerHTML = "<p style='text-align:center;'>Belum ada data pengalaman kerja.</p>";
                 return;
             }
-
             snapshot.forEach((doc) => {
                 const data = doc.data();
                 container.innerHTML += `
@@ -156,12 +167,11 @@
             });
         });
 
-        // Kontrol Modal (Fungsi Asli Anda)
+        // Kontrol Modal
         const modal = document.getElementById("expModal");
         window.openModal = () => { modal.style.display = "block"; document.body.style.overflow = "hidden"; }
         window.closeModal = () => { modal.style.display = "none"; document.body.style.overflow = "auto"; }
         window.onclick = (e) => { if (e.target == modal) closeModal(); }
     </script>
-
 </body>
 </html>
