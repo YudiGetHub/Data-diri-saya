@@ -14,66 +14,44 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--text); line-height: 1.6; }
         .container { max-width: 800px; margin: auto; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        /* Header Section */
         .header { background: var(--primary); color: white; padding: 40px 20px; text-align: center; }
         
-        /* Foto Profil */
         .profile-img { 
-            width: 130px; 
-            height: 130px; 
-            border-radius: 50%; 
-            border: 4px solid white; 
-            margin-bottom: 15px; 
-            object-fit: cover; 
-            background: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 130px; height: 130px; border-radius: 50%; border: 4px solid white; 
+            margin-bottom: 15px; object-fit: cover; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .header h1 { margin: 0; font-size: 2.2em; letter-spacing: 2px; text-transform: uppercase; }
         .header p { opacity: 0.9; margin: 5px 0 20px 0; font-weight: 300; font-size: 1.1em; }
         
-        /* Contact & Social Bar */
         .contact-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: 0.85em; }
-        .contact-bar a { color: #ecf0f1; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; transition: 0.3s; background: rgba(255,255,255,0.05); white-space: nowrap; }
+        .contact-bar a { color: #ecf0f1; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; transition: 0.3s; background: rgba(255,255,255,0.05); }
         .contact-bar a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
 
         .content { padding: 30px; }
-        
-        /* Section Styling */
         .section { margin-bottom: 35px; }
         .section-title { border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 15px; color: var(--primary); font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 
-        /* Skill Tags */
         .skill-container { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-tag { background: #e1f5fe; color: #01579b; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
         .soft-skill-tag { background: #f1f2f6; color: #2f3542; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
 
-        /* Button styling */
-        .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-transform: uppercase; }
-        .btn-exp:hover { background: #2980b9; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; text-transform: uppercase; }
+        .btn-exp:hover { background: #2980b9; transform: translateY(-2px); }
 
-        /* Modal styling */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 10% auto; padding: 30px; width: 85%; max-width: 550px; border-radius: 12px; position: relative; animation: slideDown 0.4s; color: var(--text); }
+        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 85%; max-width: 550px; border-radius: 12px; position: relative; animation: slideDown 0.3s; color: var(--text); }
         .close { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #999; }
         
-        @keyframes slideDown {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .exp-item { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
         .exp-item:last-child { border-bottom: none; }
         .exp-item h4 { margin: 0; color: var(--primary); font-size: 1.1em; }
         .exp-item span { font-size: 0.85em; color: var(--accent); font-weight: bold; }
-        .exp-item p { margin: 8px 0 0 0; font-size: 0.95em; color: #555; }
+        .exp-item p { margin: 5px 0 0 0; font-size: 0.9em; color: #555; }
 
-        @media (max-width: 600px) {
-            .header h1 { font-size: 1.7em; }
-            .profile-img { width: 110px; height: 110px; }
-            .contact-bar { gap: 5px; }
-            .contact-bar a { font-size: 0.75em; padding: 5px 10px; }
-        }
+        @media (max-width: 600px) { .header h1 { font-size: 1.7em; } .profile-img { width: 110px; height: 110px; } }
     </style>
 </head>
 <body>
@@ -81,48 +59,47 @@
     <div class="container">
         <div class="header">
             <img src="https://i.ibb.co.com/bMnwxsWw/Whats-App-Image-2026-04-04-at-05-25-30.png" alt="Nur Wahyudi" class="profile-img">
-            
             <h1>NUR WAHYUDI</h1>
-            <p>Full-Stack Mobile Developer & Financial Analyst</p>
+            <p>Full-Stack Mobile Developer & Administration Professional</p>
             
             <div class="contact-bar">
                 <a href="mailto:Yudi02012001@gmail.com">📧 Email</a>
                 <a href="https://wa.me/62881024040191" target="_blank">💬 WA</a>
                 <a href="https://portofolio-nur-wahyudi.vercel.app/" target="_blank">🌐 Portfolio</a>
-                <a href="https://www.instagram.com/nurwahyudi_211" target="_blank">📸 Instagram</a>
-                <a href="https://www.facebook.com/yudiyng.menqerti" target="_blank">👥 Facebook</a>
+                <a href="https://www.instagram.com/nurwahyudi_211" target="_blank">📸 IG</a>
+                <a href="https://www.facebook.com/yudiyng.menqerti" target="_blank">👥 FB</a>
             </div>
         </div>
 
         <div class="content">
             <div class="section">
                 <h3 class="section-title">Tentang Saya</h3>
-                <p>Seorang pengembang yang berfokus pada ekosistem mobile, membangun solusi perangkat lunak langsung melalui perangkat seluler. Memiliki ketelitian tinggi dalam manajemen aset dan alokasi anggaran operasional maupun pribadi.</p>
+                <p>Seorang profesional dengan latar belakang kuat di bidang administrasi dan pengembangan teknologi mobile. Memiliki pengalaman lebih dari 4 tahun dalam manajemen data, pengarsipan, dan layanan operasional. Terampil dalam manajemen keuangan serta pengembangan aplikasi berbasis React Native.</p>
             </div>
 
             <div class="section">
-                <h3 class="section-title">Keahlian Teknis</h3>
+                <h3 class="section-title">Keahlian & Kompetensi</h3>
                 <div class="skill-container">
-                    <span class="skill-tag">Mobile Development (React Native)</span>
+                    <span class="skill-tag">Administrasi & Pengarsipan</span>
+                    <span class="skill-tag">Manajemen Keuangan & Cash Flow</span>
+                    <span class="skill-tag">Full-Stack Mobile Development</span>
                     <span class="skill-tag">Firebase Infrastructure</span>
-                    <span class="skill-tag">Git & GitHub Workflow</span>
-                    <span class="skill-tag">Financial Management</span>
-                    <span class="skill-tag">Vercel & Replit Deployment</span>
+                    <span class="skill-tag">Customer Service Excellence</span>
                 </div>
             </div>
 
             <div class="section">
                 <h3 class="section-title">Soft Skills</h3>
                 <div class="skill-container">
-                    <span class="soft-skill-tag">Self-Managed & Discipline</span>
+                    <span class="soft-skill-tag">Ketelitian Tinggi (Detail-Oriented)</span>
+                    <span class="soft-skill-tag">Manajemen Waktu Mandiri</span>
                     <span class="soft-skill-tag">Problem Solving</span>
-                    <span class="soft-skill-tag">Attention to Detail</span>
-                    <span class="soft-skill-tag">Analytical Thinking</span>
+                    <span class="soft-skill-tag">Adaptabilitas Tinggi</span>
                 </div>
             </div>
 
             <div class="section" style="margin-top: 40px;">
-                <button class="btn-exp" onclick="openModal()">Lihat Pengalaman Kerja</button>
+                <button class="btn-exp" onclick="openModal()">Lihat Pengalaman Kerja Selengkapnya</button>
             </div>
         </div>
     </div>
@@ -130,25 +107,37 @@
     <div id="expModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 style="color: var(--primary); margin-top: 0;">Pengalaman Kerja & Proyek</h2>
+            <h2 style="color: var(--primary); margin-top: 0;">Riwayat Pekerjaan</h2>
             <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
             
             <div class="exp-item">
-                <h4>Independent Mobile Developer</h4>
-                <span>2024 - Sekarang</span>
-                <p>Mengembangkan aplikasi "Defender" untuk optimasi sistem Android dan membangun micro-PaaS Website Builder Engine.</p>
+                <h4>Staf Administrasi - PT Kovalen Mining</h4>
+                <span>2020 - 2025</span>
+                <p>Bertanggung jawab atas manajemen dokumen perusahaan, pengarsipan digital, serta mendukung operasional harian kantor dengan tingkat ketelitian tinggi.</p>
             </div>
 
             <div class="exp-item">
-                <h4>Project Manager & Game Developer</h4>
-                <span>Proyek Mandiri</span>
-                <p>Membangun sistem game interaktif multi-user menggunakan integrasi Firebase Realtime Database.</p>
+                <h4>Kasir - Transmart Carrefour</h4>
+                <span>2020</span>
+                <p>Mengelola transaksi pembayaran pelanggan secara cepat dan akurat serta memberikan pelayanan konsumen yang prima.</p>
             </div>
 
             <div class="exp-item">
-                <h4>Financial Planning & Operation</h4>
-                <span>Manajemen Aset</span>
-                <p>Mengelola arus kas bulanan secara efisien, optimasi biaya admin bank melalui sistem otomatis, dan manajemen tabungan valas.</p>
+                <h4>Pramuniaga - PT Aeon Mall BSD</h4>
+                <span>2019</span>
+                <p>Fokus pada pengelolaan inventaris produk dan memastikan kepuasan pelanggan di area retail.</p>
+            </div>
+
+            <div class="exp-item">
+                <h4>Magang Administrasi - Gramedia</h4>
+                <span>Masa Sekolah</span>
+                <p>Mendukung tim operasional dalam penataan produk dan administrasi dasar gudang/toko.</p>
+            </div>
+
+            <div class="exp-item">
+                <h4>Independent Developer & Project Manager</h4>
+                <span>Proyek Mandiri (Aktif)</span>
+                <p>Membangun aplikasi optimasi Android (Defender) dan sistem real-time menggunakan Firebase Firestore.</p>
             </div>
         </div>
     </div>
