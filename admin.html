@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Nur Wahyudi</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #27ae60; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--primary); color: white; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .panel { background: #34495e; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-login { background: #3498db; color: white; }
+        .btn-post { background: var(--accent); color: white; }
+        #adminSection { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="loginSection" class="panel">
+        <h2>Admin Login</h2>
+        <input type="text" id="userInput" placeholder="Username">
+        <input type="password" id="passInput" placeholder="Password">
+        <button class="btn-login" onclick="checkLogin()">MASUK</button>
+    </div>
+
+    <div id="adminSection" class="panel">
+        <h2>Update Pengalaman</h2>
+        <input type="text" id="posisi" placeholder="Posisi (Staf Admin)">
+        <input type="text" id="perusahaan" placeholder="Perusahaan (PT Kovalen Mining)">
+        <input type="text" id="tahun" placeholder="Tahun (2020 - 2025)">
+        <textarea id="deskripsi" rows="4" placeholder="Deskripsi tugas..."></textarea>
+        <button class="btn-post" onclick="simpanData()">UPDATE WEBSITE</button>
+        <button onclick="logout()" style="background:none; color:#bdc3c7; margin-top:10px;">Keluar</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8JJ5-_eLfev8PL5J1hUQpKyc8EVKQ7_k",
+            authDomain: "datadiri-saya.firebaseapp.com",
+            projectId: "datadiri-saya",
+            storageBucket: "datadiri-saya.firebasestorage.app",
+            messagingSenderId: "38066794822",
+            appId: "1:38066794822:web:cb97ebfc41dd53794c3547"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.checkLogin = () => {
+            if (document.getElementById('userInput').value === "Admin" && document.getElementById('passInput').value === "Yudi0201#") {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminSection').style.display = 'block';
+                sessionStorage.setItem("yudi_auth", "true");
+            } else { alert("Akses Ditolak!"); }
+        };
+
+        window.simpanData = async () => {
+            try {
+                await addDoc(collection(db, "pengalaman"), {
+                    posisi: document.getElementById('posisi').value,
+                    perusahaan: document.getElementById('perusahaan').value,
+                    tahun: document.getElementById('tahun').value,
+                    deskripsi: document.getElementById('deskripsi').value,
+                    createdAt: new Date()
+                });
+                alert("Data Terkirim!");
+                location.reload();
+            } catch (e) { alert("Error: " + e.message); }
+        };
+
+        window.logout = () => { sessionStorage.clear(); location.reload(); };
+        if(sessionStorage.getItem("yudi_auth") === "true") {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
