@@ -15,15 +15,25 @@
         .contact-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: 0.85em; }
         .contact-bar a { color: #ecf0f1; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; transition: 0.3s; background: rgba(255,255,255,0.05); }
         .contact-bar a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+        
         .content { padding: 30px; }
         .section { margin-bottom: 35px; }
         .section-title { border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 15px; color: var(--primary); font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-        .skill-container { display: flex; flex-wrap: wrap; gap: 8px; min-height: 20px; }
+        
+        .skill-container { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-tag { background: #e1f5fe; color: #01579b; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
         .soft-skill-tag { background: #f1f2f6; color: #2f3542; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
-        .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; text-transform: uppercase; }
+        
+        /* Style Sertifikat */
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 10px; }
+        .cert-item { text-align: center; }
+        .cert-item img { width: 100%; border-radius: 8px; border: 1px solid #ddd; transition: 0.3s; cursor: pointer; }
+        .cert-item img:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .cert-item p { font-size: 0.75em; margin-top: 5px; color: #666; }
+
+        .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; text-transform: uppercase; margin-top: 10px; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 85%; max-width: 550px; border-radius: 12px; position: relative; animation: slideDown 0.3s; }
+        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 85%; max-width: 550px; border-radius: 12px; position: relative; animation: slideDown 0.3s; color: #333; }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .exp-item { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
         .exp-item:last-child { border-bottom: none; }
@@ -62,8 +72,14 @@
                 <div class="skill-container" id="soft-skills-container"></div>
             </div>
 
+            <div class="section">
+                <h3 class="section-title">Sertifikat & Penghargaan</h3>
+                <div class="cert-grid" id="cert-container">
+                    </div>
+            </div>
+
             <div class="section" style="margin-top: 40px;">
-                <button class="btn-exp" onclick="openModal()">Lihat Pengalaman Kerja Selengkapnya</button>
+                <button class="btn-exp" onclick="openModal()">Lihat Pengalaman Kerja</button>
             </div>
         </div>
     </div>
@@ -100,7 +116,7 @@
                 document.getElementById('main-nama').innerText = d.nama || "NUR WAHYUDI";
                 document.getElementById('main-slogan').innerText = d.slogan || "";
                 document.getElementById('main-bio').innerText = d.bio || "";
-                document.getElementById('main-foto').src = d.foto || "";
+                document.getElementById('main-foto').src = d.foto || "https://via.placeholder.com/130";
             }
         });
 
@@ -118,37 +134,46 @@
             });
         });
         
-        // --- LOAD PENGALAMAN ---
-onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
-    const list = document.getElementById('riwayat-list');
-    
-    // Memberikan transisi halus saat data dimuat
-    list.style.opacity = "0";
-    
-    setTimeout(() => {
-        list.innerHTML = ""; 
-        
-        if (snap.empty) {
-            list.innerHTML = `<p style="text-align:center; color:#999; padding: 20px;">Belum ada data pengalaman kerja yang ditambahkan.</p>`;
-        } else {
+        // --- LOAD SERTIFIKAT (FITUR BARU SINKRON ADMIN) ---
+        onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "asc")), (snap) => {
+            const box = document.getElementById('cert-container');
+            box.innerHTML = "";
             snap.forEach(res => {
                 const d = res.data();
-                // Menggunakan template literal yang serasi dengan desain CV Anda
-                list.innerHTML += `
-                    <div class="exp-item">
-                        <h4>${d.posisi} - ${d.perusahaan}</h4>
-                        <span>${d.tahun}</span>
-                        <p>${d.deskripsi}</p>
+                box.innerHTML += `
+                    <div class="cert-item">
+                        <a href="${d.link}" target="_blank">
+                            <img src="${d.link}" alt="${d.nama}">
+                        </a>
+                        <p>${d.nama}</p>
                     </div>`;
             });
-        }
-        list.style.opacity = "1";
-        list.style.transition = "opacity 0.5s";
-    }, 300);
-});
+        });
+
+        // --- LOAD PENGALAMAN ---
+        onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
+            const list = document.getElementById('riwayat-list');
+            list.innerHTML = ""; 
+            if (snap.empty) {
+                list.innerHTML = `<p style="text-align:center; color:#999; padding: 20px;">Belum ada data pengalaman kerja.</p>`;
+            } else {
+                snap.forEach(res => {
+                    const d = res.data();
+                    list.innerHTML += `
+                        <div class="exp-item">
+                            <h4>${d.posisi} - ${d.perusahaan}</h4>
+                            <span>${d.tahun}</span>
+                            <p>${d.deskripsi}</p>
+                        </div>`;
+                });
+            }
+        });
 
         window.openModal = () => { document.getElementById("expModal").style.display = "block"; }
         window.closeModal = () => { document.getElementById("expModal").style.display = "none"; }
+        window.onclick = (event) => {
+            if (event.target == document.getElementById("expModal")) closeModal();
+        }
     </script>
 </body>
 </html>
