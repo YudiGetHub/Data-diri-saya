@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Admin - Nur Wahyudi</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --blue: #3498db; }
+        :root { --primary: #2c3e50; --accent: #27ae60; --blue: #3498db; --red: #e74c3c; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--primary); color: white; padding: 20px; }
-        .panel { background: #34495e; padding: 25px; border-radius: 12px; max-width: 500px; margin: 20px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none; box-sizing: border-box; background: #ecf0f1; }
+        .panel { background: #34495e; padding: 25px; border-radius: 12px; max-width: 600px; margin: 20px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none; box-sizing: border-box; background: #ecf0f1; }
         h3 { border-bottom: 2px solid var(--blue); padding-bottom: 5px; margin-bottom: 20px; color: #3498db; }
-        button { width: 100%; padding: 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button { width: 100%; padding: 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .btn-blue { background: var(--blue); color: white; }
         .btn-green { background: var(--accent); color: white; }
+        .btn-red { background: var(--red); color: white; padding: 5px 10px; width: auto; font-size: 12px; }
+        .list-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         #adminContent { display: none; }
     </style>
 </head>
@@ -28,24 +30,32 @@
     <div id="adminContent">
         <div class="panel">
             <h3>1. Edit Profil Utama</h3>
-            <label>Nama Lengkap</label>
-            <input type="text" id="p_nama" placeholder="Contoh: Nur Wahyudi">
-            <label>Slogan / Jabatan</label>
-            <input type="text" id="p_slogan" placeholder="Contoh: Full-Stack Mobile Developer">
-            <label>Link Foto Profil (Direct Link)</label>
-            <input type="text" id="p_foto" placeholder="Link dari ImgBB">
-            <label>Tentang Saya (Bio)</label>
-            <textarea id="p_bio" rows="4"></textarea>
+            <input type="text" id="p_nama" placeholder="Nama Lengkap">
+            <input type="text" id="p_slogan" placeholder="Slogan / Jabatan">
+            <input type="text" id="p_foto" placeholder="Link Foto Profil">
+            <textarea id="p_bio" rows="4" placeholder="Tentang Saya"></textarea>
             <button class="btn-blue" onclick="updateProfil()">UPDATE INFO PROFIL</button>
         </div>
 
         <div class="panel">
-            <h3>2. Tambah Pengalaman Kerja</h3>
+            <h3>2. Keahlian & Soft Skills</h3>
+            <input type="text" id="skill_name" placeholder="Nama Skill (Contoh: React Native)">
+            <select id="skill_type">
+                <option value="hard">Hard Skill (Keahlian Teknis)</option>
+                <option value="soft">Soft Skill</option>
+            </select>
+            <button class="btn-green" onclick="addSkill()">TAMBAH SKILL</button>
+            <div id="admin-skill-list" style="margin-top:20px;"></div>
+        </div>
+
+        <div class="panel">
+            <h3>3. Pengalaman Kerja</h3>
             <input type="text" id="exp_posisi" placeholder="Posisi">
             <input type="text" id="exp_PT" placeholder="Perusahaan">
             <input type="text" id="exp_tahun" placeholder="Tahun">
             <textarea id="exp_desc" rows="3" placeholder="Deskripsi..."></textarea>
             <button class="btn-green" onclick="addExp()">TAMBAH PENGALAMAN</button>
+            <div id="admin-exp-list" style="margin-top:20px;"></div>
         </div>
         
         <p style="text-align:center"><button onclick="logout()" style="background:none; color:#bdc3c7;">Log Out</button></p>
@@ -53,7 +63,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, onSnapshot, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC8JJ5-_eLfev8PL5J1hUQpKyc8EVKQ7_k",
@@ -67,6 +77,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // --- AUTH ---
         window.checkLogin = () => {
             if(document.getElementById('userInput').value === "Admin" && document.getElementById('passInput').value === "Yudi0201#") {
                 document.getElementById('loginSection').style.display='none';
@@ -75,30 +86,60 @@
             } else { alert("Salah!"); }
         };
 
+        // --- UPDATE PROFIL ---
         window.updateProfil = async () => {
-            try {
-                await setDoc(doc(db, "settings", "profil"), {
-                    nama: document.getElementById('p_nama').value,
-                    slogan: document.getElementById('p_slogan').value,
-                    foto: document.getElementById('p_foto').value,
-                    bio: document.getElementById('p_bio').value
-                });
-                alert("Profil Berhasil Diubah!");
-            } catch (e) { alert(e.message); }
+            await setDoc(doc(db, "settings", "profil"), {
+                nama: document.getElementById('p_nama').value,
+                slogan: document.getElementById('p_slogan').value,
+                foto: document.getElementById('p_foto').value,
+                bio: document.getElementById('p_bio').value
+            });
+            alert("Profil Terupdate!");
         };
 
+        // --- MANAJEMEN SKILL ---
+        window.addSkill = async () => {
+            const name = document.getElementById('skill_name').value;
+            const type = document.getElementById('skill_type').value;
+            if(!name) return;
+            await addDoc(collection(db, "skills"), { name, type, createdAt: new Date() });
+            document.getElementById('skill_name').value = "";
+        };
+
+        onSnapshot(query(collection(db, "skills"), orderBy("createdAt", "desc")), (snap) => {
+            const list = document.getElementById('admin-skill-list');
+            list.innerHTML = "<h4>Daftar Skill Saat Ini:</h4>";
+            snap.forEach(res => {
+                const d = res.data();
+                list.innerHTML += `<div class="list-item"><span>[${d.type.toUpperCase()}] ${d.name}</span>
+                <button class="btn-red" onclick="deleteData('skills', '${res.id}')">Hapus</button></div>`;
+            });
+        });
+
+        // --- MANAJEMEN PENGALAMAN ---
         window.addExp = async () => {
-            try {
-                await addDoc(collection(db, "pengalaman"), {
-                    posisi: document.getElementById('exp_posisi').value,
-                    perusahaan: document.getElementById('exp_PT').value,
-                    tahun: document.getElementById('exp_tahun').value,
-                    deskripsi: document.getElementById('exp_desc').value,
-                    createdAt: new Date()
-                });
-                alert("Pengalaman Ditambahkan!");
-                location.reload();
-            } catch (e) { alert(e.message); }
+            await addDoc(collection(db, "pengalaman"), {
+                posisi: document.getElementById('exp_posisi').value,
+                perusahaan: document.getElementById('exp_PT').value,
+                tahun: document.getElementById('exp_tahun').value,
+                deskripsi: document.getElementById('exp_desc').value,
+                createdAt: new Date()
+            });
+            alert("Ditambahkan!");
+        };
+
+        onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
+            const list = document.getElementById('admin-exp-list');
+            list.innerHTML = "<h4>Daftar Pengalaman Saat Ini:</h4>";
+            snap.forEach(res => {
+                const d = res.data();
+                list.innerHTML += `<div class="list-item"><span>${d.posisi} @ ${d.perusahaan}</span>
+                <button class="btn-red" onclick="deleteData('pengalaman', '${res.id}')">Hapus</button></div>`;
+            });
+        });
+
+        window.deleteData = async (coll, id) => {
+            if(confirm("Hapus data ini?")) { await deleteDoc(doc(db, coll, id)); }
         };
 
         window.logout = () => { sessionStorage.clear(); location.reload(); };
