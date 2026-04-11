@@ -8,12 +8,20 @@
         :root { --primary: #2c3e50; --accent: #27ae60; --blue: #3498db; --red: #e74c3c; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--primary); color: white; padding: 20px; }
         .panel { background: #34495e; padding: 25px; border-radius: 12px; max-width: 600px; margin: 20px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none; box-sizing: border-box; background: #ecf0f1; }
+        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none; box-sizing: border-box; background: #ecf0f1; color: #333; }
         h3 { border-bottom: 2px solid var(--blue); padding-bottom: 5px; margin-bottom: 20px; color: #3498db; }
         button { width: 100%; padding: 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .btn-blue { background: var(--blue); color: white; }
         .btn-green { background: var(--accent); color: white; }
         .btn-red { background: var(--red); color: white; padding: 5px 10px; width: auto; font-size: 12px; }
+        
+        /* Container Password & Mata */
+        .pass-container { position: relative; width: 100%; }
+        .toggle-pass { 
+            position: absolute; right: 10px; top: 12px; color: #333; cursor: pointer; 
+            font-size: 18px; user-select: none; 
+        }
+
         .list-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         #adminContent { display: none; }
     </style>
@@ -23,7 +31,10 @@
     <div id="loginSection" class="panel">
         <h2 style="text-align:center">Admin Login</h2>
         <input type="text" id="userInput" placeholder="Username">
-        <input type="password" id="passInput" placeholder="Password">
+        <div class="pass-container">
+            <input type="password" id="passInput" placeholder="Password">
+            <span class="toggle-pass" onclick="togglePassword()">👁️</span>
+        </div>
         <button class="btn-blue" onclick="checkLogin()">MASUK</button>
     </div>
 
@@ -32,14 +43,14 @@
             <h3>1. Edit Profil Utama</h3>
             <input type="text" id="p_nama" placeholder="Nama Lengkap">
             <input type="text" id="p_slogan" placeholder="Slogan / Jabatan">
-            <input type="text" id="p_foto" placeholder="Link Foto Profil">
+            <input type="text" id="p_foto" placeholder="Link Foto Profil (Direct Link)">
             <textarea id="p_bio" rows="4" placeholder="Tentang Saya"></textarea>
             <button class="btn-blue" onclick="updateProfil()">UPDATE INFO PROFIL</button>
         </div>
 
         <div class="panel">
             <h3>2. Keahlian & Soft Skills</h3>
-            <input type="text" id="skill_name" placeholder="Nama Skill (Contoh: React Native)">
+            <input type="text" id="skill_name" placeholder="Nama Skill">
             <select id="skill_type">
                 <option value="hard">Hard Skill (Keahlian Teknis)</option>
                 <option value="soft">Soft Skill</option>
@@ -56,6 +67,14 @@
             <textarea id="exp_desc" rows="3" placeholder="Deskripsi..."></textarea>
             <button class="btn-green" onclick="addExp()">TAMBAH PENGALAMAN</button>
             <div id="admin-exp-list" style="margin-top:20px;"></div>
+        </div>
+
+        <div class="panel">
+            <h3>4. Kelola Sertifikat</h3>
+            <input type="text" id="cert_nama" placeholder="Nama Sertifikat">
+            <input type="text" id="cert_link" placeholder="Link Gambar (Direct Link ImgBB)">
+            <button class="btn-green" onclick="addCert()">TAMBAH SERTIFIKAT</button>
+            <div id="admin-cert-list" style="margin-top:20px;"></div>
         </div>
         
         <p style="text-align:center"><button onclick="logout()" style="background:none; color:#bdc3c7;">Log Out</button></p>
@@ -77,7 +96,12 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- AUTH ---
+        // --- AUTH & UI ---
+        window.togglePassword = () => {
+            const passInput = document.getElementById('passInput');
+            passInput.type = passInput.type === "password" ? "text" : "password";
+        };
+
         window.checkLogin = () => {
             if(document.getElementById('userInput').value === "Admin" && document.getElementById('passInput').value === "Yudi0201#") {
                 document.getElementById('loginSection').style.display='none';
@@ -85,6 +109,10 @@
                 sessionStorage.setItem("yudi_auth", "true");
             } else { alert("Salah!"); }
         };
+
+        document.getElementById('passInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkLogin();
+        });
 
         // --- UPDATE PROFIL ---
         window.updateProfil = async () => {
@@ -108,7 +136,7 @@
 
         onSnapshot(query(collection(db, "skills"), orderBy("createdAt", "desc")), (snap) => {
             const list = document.getElementById('admin-skill-list');
-            list.innerHTML = "<h4>Daftar Skill Saat Ini:</h4>";
+            list.innerHTML = "<h4>Daftar Skill:</h4>";
             snap.forEach(res => {
                 const d = res.data();
                 list.innerHTML += `<div class="list-item"><span>[${d.type.toUpperCase()}] ${d.name}</span>
@@ -125,45 +153,37 @@
                 deskripsi: document.getElementById('exp_desc').value,
                 createdAt: new Date()
             });
-            alert("Ditambahkan!");
+            alert("Pengalaman Ditambahkan!");
         };
 
         onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
             const list = document.getElementById('admin-exp-list');
-            list.innerHTML = "<h4>Daftar Pengalaman Saat Ini:</h4>";
+            list.innerHTML = "<h4>Daftar Pengalaman:</h4>";
             snap.forEach(res => {
                 const d = res.data();
                 list.innerHTML += `<div class="list-item"><span>${d.posisi} @ ${d.perusahaan}</span>
                 <button class="btn-red" onclick="deleteData('pengalaman', '${res.id}')">Hapus</button></div>`;
-        <div class="panel">
-    <h3>4. Kelola Sertifikat</h3>
-    <input type="text" id="cert_nama" placeholder="Nama Sertifikat (Contoh: Sertifikat Kompetensi)">
-    <input type="text" id="cert_link" placeholder="Link Gambar Sertifikat (Direct Link ImgBB)">
-    <button class="btn-green" onclick="addCert()">TAMBAH SERTIFIKAT</button>
-    <div id="admin-cert-list" style="margin-top:20px;"></div>
-</div>
+            });
+        });
 
-<script type="module">
-    // ... (kode firebase yang sudah ada) ...
+        // --- MANAJEMEN SERTIFIKAT ---
+        window.addCert = async () => {
+            const nama = document.getElementById('cert_nama').value;
+            const link = document.getElementById('cert_link').value;
+            if(!nama || !link) return alert("Isi semua kolom!");
+            await addDoc(collection(db, "sertifikat"), { nama, link, createdAt: new Date() });
+            alert("Sertifikat Berhasil Ditambah!");
+            document.getElementById('cert_nama').value = "";
+            document.getElementById('cert_link').value = "";
+        };
 
-    window.addCert = async () => {
-        const nama = document.getElementById('cert_nama').value;
-        const link = document.getElementById('cert_link').value;
-        if(!nama || !link) return alert("Isi semua kolom!");
-        await addDoc(collection(db, "sertifikat"), { nama, link, createdAt: new Date() });
-        alert("Sertifikat Berhasil Ditambah!");
-        document.getElementById('cert_nama').value = "";
-        document.getElementById('cert_link').value = "";
-    };
-
-    onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "desc")), (snap) => {
-        const list = document.getElementById('admin-cert-list');
-        list.innerHTML = "<h4>Daftar Sertifikat:</h4>";
-        snap.forEach(res => {
-            const d = res.data();
-            list.innerHTML += `<div class="list-item"><span>${d.nama}</span>
-            <button class="btn-red" onclick="deleteData('sertifikat', '${res.id}')">Hapus</button></div>`;
-            
+        onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "desc")), (snap) => {
+            const list = document.getElementById('admin-cert-list');
+            list.innerHTML = "<h4>Daftar Sertifikat:</h4>";
+            snap.forEach(res => {
+                const d = res.data();
+                list.innerHTML += `<div class="list-item"><span>${d.nama}</span>
+                <button class="btn-red" onclick="deleteData('sertifikat', '${res.id}')">Hapus</button></div>`;
             });
         });
 
@@ -172,6 +192,7 @@
         };
 
         window.logout = () => { sessionStorage.clear(); location.reload(); };
+        
         if(sessionStorage.getItem("yudi_auth") === "true") {
             document.getElementById('loginSection').style.display='none';
             document.getElementById('adminContent').style.display='block';
