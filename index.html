@@ -5,97 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV Digital - Nur Wahyudi</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --bg: #f5f6fa;
-            --text: #333;
-        }
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f5f6fa; --text: #333; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--text); line-height: 1.6; }
         .container { max-width: 800px; margin: auto; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        
         .header { background: var(--primary); color: white; padding: 40px 20px; text-align: center; }
-        
-        .profile-img { 
-            width: 130px; height: 130px; border-radius: 50%; border: 4px solid white; 
-            margin-bottom: 15px; object-fit: cover; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
+        .profile-img { width: 130px; height: 130px; border-radius: 50%; border: 4px solid white; margin-bottom: 15px; object-fit: cover; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .header h1 { margin: 0; font-size: 2.2em; letter-spacing: 2px; text-transform: uppercase; }
         .header p { opacity: 0.9; margin: 5px 0 20px 0; font-weight: 300; font-size: 1.1em; }
-        
         .contact-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: 0.85em; }
         .contact-bar a { color: #ecf0f1; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; transition: 0.3s; background: rgba(255,255,255,0.05); }
         .contact-bar a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
-
         .content { padding: 30px; }
         .section { margin-bottom: 35px; }
         .section-title { border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 15px; color: var(--primary); font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-
-        .skill-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-container { display: flex; flex-wrap: wrap; gap: 8px; min-height: 20px; }
         .skill-tag { background: #e1f5fe; color: #01579b; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
         .soft-skill-tag { background: #f1f2f6; color: #2f3542; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
-
         .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; text-transform: uppercase; }
-        .btn-exp:hover { background: #2980b9; transform: translateY(-2px); }
-
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 85%; max-width: 550px; border-radius: 12px; position: relative; animation: slideDown 0.3s; color: var(--text); }
-        .close { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #999; }
-        
+        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 85%; max-width: 550px; border-radius: 12px; position: relative; animation: slideDown 0.3s; }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
         .exp-item { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
         .exp-item:last-child { border-bottom: none; }
         .exp-item h4 { margin: 0; color: var(--primary); font-size: 1.1em; }
         .exp-item span { font-size: 0.85em; color: var(--accent); font-weight: bold; }
         .exp-item p { margin: 5px 0 0 0; font-size: 0.9em; color: #555; }
-
-        @media (max-width: 600px) { .header h1 { font-size: 1.7em; } .profile-img { width: 110px; height: 110px; } }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <img id="main-foto" src="https://i.ibb.co.com/bMnwxsWw/Whats-App-Image-2026-04-04-at-05-25-30.png" alt="Nur Wahyudi" class="profile-img">
+            <img id="main-foto" src="https://via.placeholder.com/130" class="profile-img">
             <h1 id="main-nama">NUR WAHYUDI</h1>
-            <p id="main-slogan">Full-Stack Mobile Developer & Administration Professional</p>
-            
-            <div class="contact-bar" id="main-socials">
-                <a href="mailto:Yudi02012001@gmail.com" id="link-email">📧 Email</a>
-                <a href="https://wa.me/62881024040191" target="_blank" id="link-wa">💬 WA</a>
-                <a href="https://portofolio-nur-wahyudi.vercel.app/" target="_blank" id="link-web">🌐 Portfolio</a>
-                <a href="https://www.instagram.com/nurwahyudi_211" target="_blank" id="link-ig">📸 IG</a>
-                <a href="https://www.facebook.com/yudiyng.menqerti" target="_blank" id="link-fb">👥 FB</a>
+            <p id="main-slogan">Memuat...</p>
+            <div class="contact-bar">
+                <a href="mailto:Yudi02012001@gmail.com">📧 Email</a>
+                <a href="https://wa.me/62881024040191" target="_blank">💬 WA</a>
+                <a href="https://portofolio-nur-wahyudi.vercel.app/" target="_blank">🌐 Portfolio</a>
             </div>
         </div>
 
         <div class="content">
             <div class="section">
                 <h3 class="section-title">Tentang Saya</h3>
-                <p id="main-bio">Memuat informasi profil...</p>
+                <p id="main-bio">Memuat informasi...</p>
             </div>
 
             <div class="section">
                 <h3 class="section-title">Keahlian & Kompetensi</h3>
-                <div class="skill-container" id="skill-list">
-                    <span class="skill-tag">Administrasi & Pengarsipan</span>
-                    <span class="skill-tag">Manajemen Keuangan & Cash Flow</span>
-                    <span class="skill-tag">Full-Stack Mobile Development</span>
-                    <span class="skill-tag">Firebase Infrastructure</span>
-                    <span class="skill-tag">Customer Service Excellence</span>
-                </div>
+                <div class="skill-container" id="hard-skills-container"></div>
             </div>
 
             <div class="section">
                 <h3 class="section-title">Soft Skills</h3>
-                <div class="skill-container">
-                    <span class="soft-skill-tag">Ketelitian Tinggi (Detail-Oriented)</span>
-                    <span class="soft-skill-tag">Manajemen Waktu Mandiri</span>
-                    <span class="soft-skill-tag">Problem Solving</span>
-                    <span class="soft-skill-tag">Adaptabilitas Tinggi</span>
-                </div>
+                <div class="skill-container" id="soft-skills-container"></div>
             </div>
 
             <div class="section" style="margin-top: 40px;">
@@ -106,13 +70,10 @@
 
     <div id="expModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span style="float:right; cursor:pointer; font-size:28px" onclick="closeModal()">&times;</span>
             <h2 style="color: var(--primary); margin-top: 0;">Riwayat Pekerjaan</h2>
             <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-            
-            <div id="riwayat-list">
-                <p style="text-align:center; color:#999;">Memuat riwayat pekerjaan...</p>
-            </div>
+            <div id="riwayat-list"></div>
         </div>
     </div>
 
@@ -132,46 +93,43 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- 1. AMBIL DATA PROFIL UTAMA (NAMA, BIO, FOTO) ---
-        onSnapshot(doc(db, "settings", "profil"), (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                if(data.nama) document.getElementById('main-nama').innerText = data.nama;
-                if(data.slogan) document.getElementById('main-slogan').innerText = data.slogan;
-                if(data.bio) document.getElementById('main-bio').innerText = data.bio;
-                if(data.foto) document.getElementById('main-foto').src = data.foto;
-                
-                // Update Link Sosmed jika ada di database
-                if(data.email) document.getElementById('link-email').href = "mailto:" + data.email;
-                if(data.wa) document.getElementById('link-wa').href = "https://wa.me/" + data.wa;
-                if(data.ig) document.getElementById('link-ig').href = "https://www.instagram.com/" + data.ig;
+        // --- LOAD PROFIL ---
+        onSnapshot(doc(db, "settings", "profil"), (s) => {
+            if(s.exists()){
+                const d = s.data();
+                document.getElementById('main-nama').innerText = d.nama || "NUR WAHYUDI";
+                document.getElementById('main-slogan').innerText = d.slogan || "";
+                document.getElementById('main-bio').innerText = d.bio || "";
+                document.getElementById('main-foto').src = d.foto || "";
             }
         });
 
-        // --- 2. AMBIL DATA RIWAYAT PEKERJAAN ---
-        const container = document.getElementById("riwayat-list");
-        onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snapshot) => {
-            container.innerHTML = ""; 
-            if (snapshot.empty) {
-                container.innerHTML = "<p style='text-align:center;'>Belum ada data pengalaman kerja.</p>";
-                return;
-            }
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                container.innerHTML += `
-                    <div class="exp-item">
-                        <h4>${data.posisi} - ${data.perusahaan}</h4>
-                        <span>${data.tahun}</span>
-                        <p>${data.deskripsi}</p>
-                    </div>`;
+        // --- LOAD SKILLS ---
+        onSnapshot(query(collection(db, "skills"), orderBy("createdAt", "asc")), (snap) => {
+            const hardBox = document.getElementById('hard-skills-container');
+            const softBox = document.getElementById('soft-skills-container');
+            hardBox.innerHTML = ""; softBox.innerHTML = "";
+            snap.forEach(res => {
+                const d = res.data();
+                const tag = document.createElement('span');
+                tag.className = d.type === 'hard' ? 'skill-tag' : 'soft-skill-tag';
+                tag.innerText = d.name;
+                d.type === 'hard' ? hardBox.appendChild(tag) : softBox.appendChild(tag);
             });
         });
 
-        // Kontrol Modal
-        const modal = document.getElementById("expModal");
-        window.openModal = () => { modal.style.display = "block"; document.body.style.overflow = "hidden"; }
-        window.closeModal = () => { modal.style.display = "none"; document.body.style.overflow = "auto"; }
-        window.onclick = (e) => { if (e.target == modal) closeModal(); }
+        // --- LOAD PENGALAMAN ---
+        onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
+            const list = document.getElementById('riwayat-list');
+            list.innerHTML = "";
+            snap.forEach(res => {
+                const d = res.data();
+                list.innerHTML += `<div class="exp-item"><h4>${d.posisi} - ${d.perusahaan}</h4><span>${d.tahun}</span><p>${d.deskripsi}</p></div>`;
+            });
+        });
+
+        window.openModal = () => { document.getElementById("expModal").style.display = "block"; }
+        window.closeModal = () => { document.getElementById("expModal").style.display = "none"; }
     </script>
 </body>
 </html>
