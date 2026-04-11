@@ -24,7 +24,6 @@
         .skill-tag { background: #e1f5fe; color: #01579b; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
         .soft-skill-tag { background: #f1f2f6; color: #2f3542; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
         
-        /* Style Sertifikat */
         .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 10px; }
         .cert-item { text-align: center; }
         .cert-item img { width: 100%; border-radius: 8px; border: 1px solid #ddd; transition: 0.3s; cursor: pointer; }
@@ -33,28 +32,40 @@
 
         .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; text-transform: uppercase; margin-top: 10px; }
         
-        /* UPDATE MODAL: Otomatis memanjang dan ada ruang kosong di bawah */
+        /* MODAL DENGAN TEKS TENGAH DAN SEJAJAR */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; padding: 20px 0; }
         .modal-content { 
             background: white; 
             margin: 20px auto; 
-            padding: 30px; 
-            width: 90%; 
-            max-width: 600px; 
+            padding: 40px 30px; /* Padding ditingkatkan agar teks tidak menempel */
+            width: 85%; 
+            max-width: 500px; 
             border-radius: 12px; 
             position: relative; 
             animation: slideDown 0.3s; 
             color: #333;
-            /* Memberikan ruang kosong ekstra di bawah konten */
-            padding-bottom: 50px; 
+            padding-bottom: 60px;
         }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
-        .exp-item { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .exp-item { 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 20px; 
+            margin-bottom: 20px; 
+            /* Memastikan teks item berada di tengah wadahnya */
+            text-align: center; 
+        }
         .exp-item:last-child { border-bottom: none; }
-        .exp-item h4 { margin: 0; color: var(--primary); font-size: 1.1em; }
-        .exp-item span { font-size: 0.85em; color: var(--accent); font-weight: bold; }
-        .exp-item p { margin: 5px 0 0 0; font-size: 0.9em; color: #555; text-align: justify; }
+        .exp-item h4 { margin: 0; color: var(--primary); font-size: 1.1em; line-height: 1.4; }
+        .exp-item span { font-size: 0.85em; color: var(--accent); font-weight: bold; display: block; margin: 5px 0; }
+        .exp-item p { 
+            margin: 10px auto 0 auto; 
+            font-size: 0.9em; 
+            color: #555; 
+            text-align: left; /* Deskripsi tetap rata kiri agar mudah dibaca */
+            max-width: 90%; /* Membatasi lebar teks agar ada margin otomatis di kiri-kanan */
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -100,10 +111,12 @@
 
     <div id="expModal" class="modal">
         <div class="modal-content">
-            <span style="float:right; cursor:pointer; font-size:28px" onclick="closeModal()">&times;</span>
-            <h2 style="color: var(--primary); margin-top: 0;">Riwayat Pekerjaan</h2>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <span style="float:right; cursor:pointer; font-size:28px; font-weight:bold;" onclick="closeModal()">&times;</span>
+            <h2 style="color: var(--primary); margin: 0 auto 20px auto; text-align: center;">Riwayat Pekerjaan</h2>
+            <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 25px;">
+            
             <div id="riwayat-list"></div>
+            
             <div style="height: 40px;"></div> 
         </div>
     </div>
@@ -152,32 +165,23 @@
             box.innerHTML = "";
             snap.forEach(res => {
                 const d = res.data();
-                box.innerHTML += `
-                    <div class="cert-item">
-                        <a href="${d.link}" target="_blank">
-                            <img src="${d.link}" alt="${d.nama}">
-                        </a>
-                        <p>${d.nama}</p>
-                    </div>`;
+                box.innerHTML += `<div class="cert-item"><a href="${d.link}" target="_blank"><img src="${d.link}"></a><p>${d.nama}</p></div>`;
             });
         });
 
         onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
             const list = document.getElementById('riwayat-list');
             list.innerHTML = ""; 
-            if (snap.empty) {
-                list.innerHTML = `<p style="text-align:center; color:#999; padding: 20px;">Belum ada data pengalaman kerja.</p>`;
-            } else {
-                snap.forEach(res => {
-                    const d = res.data();
-                    list.innerHTML += `
-                        <div class="exp-item">
-                            <h4>${d.posisi} - ${d.perusahaan}</h4>
-                            <span>${d.tahun}</span>
-                            <p>${d.deskripsi}</p>
-                        </div>`;
-                });
-            }
+            snap.forEach(res => {
+                const d = res.data();
+                list.innerHTML += `
+                    <div class="exp-item">
+                        <h4>${d.posisi}</h4>
+                        <span style="color:#7f8c8d;">${d.perusahaan}</span>
+                        <span>${d.tahun}</span>
+                        <p>${d.deskripsi}</p>
+                    </div>`;
+            });
         });
 
         window.openModal = () => { document.getElementById("expModal").style.display = "block"; document.body.style.overflow = "hidden"; }
