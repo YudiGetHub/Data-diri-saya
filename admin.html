@@ -135,6 +135,35 @@
                 const d = res.data();
                 list.innerHTML += `<div class="list-item"><span>${d.posisi} @ ${d.perusahaan}</span>
                 <button class="btn-red" onclick="deleteData('pengalaman', '${res.id}')">Hapus</button></div>`;
+        <div class="panel">
+    <h3>4. Kelola Sertifikat</h3>
+    <input type="text" id="cert_nama" placeholder="Nama Sertifikat (Contoh: Sertifikat Kompetensi)">
+    <input type="text" id="cert_link" placeholder="Link Gambar Sertifikat (Direct Link ImgBB)">
+    <button class="btn-green" onclick="addCert()">TAMBAH SERTIFIKAT</button>
+    <div id="admin-cert-list" style="margin-top:20px;"></div>
+</div>
+
+<script type="module">
+    // ... (kode firebase yang sudah ada) ...
+
+    window.addCert = async () => {
+        const nama = document.getElementById('cert_nama').value;
+        const link = document.getElementById('cert_link').value;
+        if(!nama || !link) return alert("Isi semua kolom!");
+        await addDoc(collection(db, "sertifikat"), { nama, link, createdAt: new Date() });
+        alert("Sertifikat Berhasil Ditambah!");
+        document.getElementById('cert_nama').value = "";
+        document.getElementById('cert_link').value = "";
+    };
+
+    onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "desc")), (snap) => {
+        const list = document.getElementById('admin-cert-list');
+        list.innerHTML = "<h4>Daftar Sertifikat:</h4>";
+        snap.forEach(res => {
+            const d = res.data();
+            list.innerHTML += `<div class="list-item"><span>${d.nama}</span>
+            <button class="btn-red" onclick="deleteData('sertifikat', '${res.id}')">Hapus</button></div>`;
+            
             });
         });
 
