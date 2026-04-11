@@ -117,16 +117,35 @@
                 d.type === 'hard' ? hardBox.appendChild(tag) : softBox.appendChild(tag);
             });
         });
-
+        
         // --- LOAD PENGALAMAN ---
-        onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
-            const list = document.getElementById('riwayat-list');
-            list.innerHTML = "";
+onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
+    const list = document.getElementById('riwayat-list');
+    
+    // Memberikan transisi halus saat data dimuat
+    list.style.opacity = "0";
+    
+    setTimeout(() => {
+        list.innerHTML = ""; 
+        
+        if (snap.empty) {
+            list.innerHTML = `<p style="text-align:center; color:#999; padding: 20px;">Belum ada data pengalaman kerja yang ditambahkan.</p>`;
+        } else {
             snap.forEach(res => {
                 const d = res.data();
-                list.innerHTML += `<div class="exp-item"><h4>${d.posisi} - ${d.perusahaan}</h4><span>${d.tahun}</span><p>${d.deskripsi}</p></div>`;
+                // Menggunakan template literal yang serasi dengan desain CV Anda
+                list.innerHTML += `
+                    <div class="exp-item">
+                        <h4>${d.posisi} - ${d.perusahaan}</h4>
+                        <span>${d.tahun}</span>
+                        <p>${d.deskripsi}</p>
+                    </div>`;
             });
-        });
+        }
+        list.style.opacity = "1";
+        list.style.transition = "opacity 0.5s";
+    }, 300);
+});
 
         window.openModal = () => { document.getElementById("expModal").style.display = "block"; }
         window.closeModal = () => { document.getElementById("expModal").style.display = "none"; }
