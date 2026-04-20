@@ -4,63 +4,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Nur Wahyudi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --blue: #3498db; --red: #e74c3c; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--primary); color: white; padding: 20px; }
-        .panel { background: #34495e; padding: 25px; border-radius: 12px; max-width: 600px; margin: 20px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none; box-sizing: border-box; background: #ecf0f1; color: #333; }
-        h3 { border-bottom: 2px solid var(--blue); padding-bottom: 5px; margin-bottom: 20px; color: #3498db; }
-        button { width: 100%; padding: 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .btn-blue { background: var(--blue); color: white; }
-        .btn-green { background: var(--accent); color: white; }
-        .btn-red { background: var(--red); color: white; padding: 5px 10px; width: auto; font-size: 12px; }
-        .pass-container { position: relative; width: 100%; }
-        .toggle-pass { position: absolute; right: 10px; top: 12px; color: #333; cursor: pointer; font-size: 18px; }
-        .list-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        :root {
+            --primary: #252836;
+            --secondary: #1F1D2B;
+            --accent: #00D9A5;
+            --accent-hover: #00b386;
+            --blue: #3B82F6;
+            --red: #FC5C5C;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --card-bg: #2D303E;
+        }
+        
+        * { box-sizing: border-box; outline: none; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Login Style */
+        #loginSection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .login-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        .login-card h2 { margin-top: 0; color: var(--accent); letter-spacing: 1px; }
+        .login-logo { font-size: 40px; margin-bottom: 10px; }
+
+        /* Input Styles */
+        input, textarea, select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background: var(--secondary);
+            color: white;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus { border-color: var(--accent); }
+
+        /* Buttons */
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+        .btn-main { background: var(--accent); color: #fff; }
+        .btn-main:hover { background: var(--accent-hover); transform: translateY(-2px); }
+        .btn-secondary { background: var(--blue); color: #fff; }
+        .btn-danger { background: var(--red); color: #fff; padding: 8px 15px; width: auto; font-size: 0.8em; border-radius: 8px;}
+        .btn-logout { background: transparent; color: var(--text-muted); border: 1px solid var(--text-muted); }
+        .btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+        /* Password Toggle */
+        .pass-container { position: relative; }
+        .toggle-pass { position: absolute; right: 15px; top: 15px; cursor: pointer; opacity: 0.7; }
+
+        /* Admin Content Layout */
         #adminContent { display: none; }
+        .admin-header { text-align: center; margin-bottom: 30px; }
+        .admin-header h2 { margin: 10px 0 5px; color: var(--accent); }
+        
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; background: var(--secondary); padding: 10px; border-radius: 12px; }
+        .tab-btn { 
+            flex: 1; 
+            background: transparent; 
+            color: var(--text-muted); 
+            padding: 10px; 
+            border-radius: 8px; 
+            text-transform: none; 
+            letter-spacing: 0; 
+            font-size: 0.95em;
+        }
+        .tab-btn.active { background: var(--card-bg); color: var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+        .tab-content { display: none; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards inside tabs */
+        .panel-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        h3 { margin: 0 0 20px 0; font-size: 1.1em; color: var(--text-main); border-left: 4px solid var(--accent); padding-left: 10px; }
+
+        /* List Items */
+        .list-item {
+            background: var(--secondary);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
     </style>
 </head>
 <body>
 
-    <div id="loginSection" class="panel">
-        <h2 style="text-align:center">Admin Login</h2>
-        <input type="text" id="userInput" placeholder="Username">
-        <div class="pass-container">
-            <input type="password" id="passInput" placeholder="Password">
-            <span class="toggle-pass" onclick="togglePassword()">👁️</span>
+    <div id="loginSection">
+        <div class="login-card">
+            <div class="login-logo">👨‍💻</div>
+            <h2>ADMIN LOGIN</h2>
+            <input type="text" id="userInput" placeholder="Username">
+            <div class="pass-container">
+                <input type="password" id="passInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkLogin()">
+                <span class="toggle-pass" onclick="togglePassword()">👁️</span>
+            </div>
+            <button class="btn-main" onclick="checkLogin()">MASUK</button>
         </div>
-        <button class="btn-blue" onclick="checkLogin()">MASUK</button>
     </div>
 
-    <div id="adminContent">
-        <div class="panel">
-            <h3>1. Edit Profil</h3>
-            <input type="text" id="p_nama" placeholder="Nama Lengkap">
-            <input type="text" id="p_slogan" placeholder="Slogan">
-            <input type="text" id="p_foto" placeholder="Link Foto Profil (Direct Link)">
-            <textarea id="p_bio" rows="4" placeholder="Tentang Saya"></textarea>
-            <button class="btn-blue" onclick="updateProfil()">UPDATE INFO PROFIL</button>
+    <div class="main-container" id="adminContent">
+        <div class="admin-header">
+            <h2>Dashboard Admin</h2>
+            <p style="color:var(--text-muted); font-size:0.9em;">Kelola data CV Anda di sini</p>
         </div>
 
-        <div class="panel">
-            <h3>2. Tambah Pengalaman</h3>
-            <input type="text" id="exp_posisi" placeholder="Posisi">
-            <input type="text" id="exp_PT" placeholder="Perusahaan">
-            <input type="text" id="exp_tahun" placeholder="Tahun">
-            <textarea id="exp_desc" rows="3" placeholder="Deskripsi..."></textarea>
-            <button class="btn-green" onclick="addExp()">TAMBAH PENGALAMAN</button>
-            <div id="admin-exp-list"></div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(event, 'tab-profil')">Profil</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tab-exp')">Pengalaman</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tab-cert')">Sertifikat</button>
         </div>
 
-        <div class="panel">
-            <h3>3. Kelola Sertifikat</h3>
-            <input type="text" id="cert_nama" placeholder="Nama Sertifikat">
-            <input type="text" id="cert_link" placeholder="Link Gambar (Direct Link)">
-            <button class="btn-green" onclick="addCert()">TAMBAH SERTIFIKAT</button>
-            <div id="admin-cert-list"></div>
+        <!-- Tab Profil -->
+        <div id="tab-profil" class="tab-content active">
+            <div class="panel-card">
+                <h3>Edit Informasi Pribadi</h3>
+                <input type="text" id="p_nama" placeholder="Nama Lengkap">
+                <input type="text" id="p_slogan" placeholder="Slogan / Profesi">
+                <input type="text" id="p_foto" placeholder="Link Foto Profil (Direct Link)">
+                <textarea id="p_bio" rows="4" placeholder="Tentang Saya (Bio)"></textarea>
+                <button class="btn-secondary" onclick="updateProfil()">SIMPAN PERUBAHAN</button>
+            </div>
+        </div>
+
+        <!-- Tab Pengalaman -->
+        <div id="tab-exp" class="tab-content">
+            <div class="panel-card">
+                <h3>Tambah Pengalaman Baru</h3>
+                <input type="text" id="exp_posisi" placeholder="Posisi / Jabatan">
+                <input type="text" id="exp_PT" placeholder="Nama Perusahaan">
+                <input type="text" id="exp_tahun" placeholder="Periode (cth: 2020 - 2025)">
+                <textarea id="exp_desc" rows="3" placeholder="Deskripsi pekerjaan..."></textarea>
+                <button class="btn-main" onclick="addExp()">TAMBAH DATA</button>
+            </div>
+            <div class="panel-card">
+                <h3>Daftar Pengalaman</h3>
+                <div id="admin-exp-list"></div>
+            </div>
+        </div>
+
+        <!-- Tab Sertifikat -->
+        <div id="tab-cert" class="tab-content">
+            <div class="panel-card">
+                <h3>Unggah Sertifikat</h3>
+                <input type="text" id="cert_nama" placeholder="Nama Sertifikat">
+                <input type="text" id="cert_link" placeholder="Link Gambar (Direct Link)">
+                <button class="btn-main" onclick="addCert()">TAMBAH SERTIFIKAT</button>
+            </div>
+            <div class="panel-card">
+                <h3>Daftar Sertifikat</h3>
+                <div id="admin-cert-list"></div>
+            </div>
         </div>
         
-        <p style="text-align:center"><button onclick="logout()" style="background:none; color:#bdc3c7;">Log Out</button></p>
+        <button class="btn-logout" onclick="logout()">Log Out</button>
+        <br><br>
     </div>
 
     <script type="module">
@@ -83,16 +231,22 @@
             const passInput = document.getElementById('passInput');
             passInput.type = passInput.type === "password" ? "text" : "password";
         };
+        
+        window.switchTab = (evt, tabName) => {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        };
 
         window.checkLogin = () => {
             const user = document.getElementById('userInput').value;
             const pass = document.getElementById('passInput').value;
-            // Penting: Huruf besar kecil harus sama persis
             if(user === "Admin" && pass === "Yudi0201#") {
                 document.getElementById('loginSection').style.display='none';
                 document.getElementById('adminContent').style.display='block';
                 sessionStorage.setItem("yudi_auth", "true");
-            } else { alert("Login Gagal!"); }
+            } else { alert("Login Gagal! Periksa kembali username/password."); }
         };
 
         window.updateProfil = async () => {
@@ -102,10 +256,11 @@
                 foto: document.getElementById('p_foto').value,
                 bio: document.getElementById('p_bio').value
             });
-            alert("Terupdate!");
+            alert("Profil berhasil diupdate!");
         };
 
         window.addExp = async () => {
+            if(!document.getElementById('exp_posisi').value) return alert("Posisi wajib diisi!");
             await addDoc(collection(db, "pengalaman"), {
                 posisi: document.getElementById('exp_posisi').value,
                 perusahaan: document.getElementById('exp_PT').value,
@@ -113,30 +268,77 @@
                 deskripsi: document.getElementById('exp_desc').value,
                 createdAt: new Date()
             });
-            alert("Berhasil!");
+            alert("Pengalaman berhasil ditambahkan!");
+            // Clear inputs
+            document.getElementById('exp_posisi').value = "";
+            document.getElementById('exp_PT').value = "";
+            document.getElementById('exp_tahun').value = "";
+            document.getElementById('exp_desc').value = "";
         };
 
         window.addCert = async () => {
-            const nama = document.getElementById('cert_nama').value;
-            const link = document.getElementById('cert_link').value;
-            await addDoc(collection(db, "sertifikat"), { nama, link, createdAt: new Date() });
-            alert("Sertifikat Berhasil!");
+            if(!document.getElementById('cert_nama').value) return alert("Nama sertifikat wajib diisi!");
+            await addDoc(collection(db, "sertifikat"), {
+                nama: document.getElementById('cert_nama').value,
+                link: document.getElementById('cert_link').value,
+                createdAt: new Date()
+            });
+            alert("Sertifikat berhasil ditambahkan!");
+            document.getElementById('cert_nama').value = "";
+            document.getElementById('cert_link').value = "";
         };
 
         window.deleteData = async (coll, id) => {
-            if(confirm("Hapus?")) { await deleteDoc(doc(db, coll, id)); }
+            if(confirm("Yakin ingin menghapus data ini?")) {
+                await deleteDoc(doc(db, coll, id));
+            }
         };
+
+        // Realtime Listeners
+        onSnapshot(doc(db, "settings", "profil"), (s) => {
+            if(s.exists()){
+                const d = s.data();
+                document.getElementById('p_nama').value = d.nama || "";
+                document.getElementById('p_slogan').value = d.slogan || "";
+                document.getElementById('p_foto').value = d.foto || "";
+                document.getElementById('p_bio').value = d.bio || "";
+            }
+        });
 
         onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
             const list = document.getElementById('admin-exp-list');
             list.innerHTML = "";
+            if(snap.empty) list.innerHTML = "<p style='color:#777; text-align:center;'>Belum ada data</p>";
             snap.forEach(res => {
-                list.innerHTML += `<div class="list-item"><span>${res.data().posisi}</span>
-                <button class="btn-red" onclick="deleteData('pengalaman', '${res.id}')">Hapus</button></div>`;
+                const d = res.data();
+                list.innerHTML += `
+                <div class="list-item">
+                    <div>
+                        <strong>${d.posisi}</strong><br>
+                        <small style="color:#aaa;">${d.perusahaan} (${d.tahun})</small>
+                    </div>
+                    <button class="btn-danger" onclick="deleteData('pengalaman', '${res.id}')">Hapus</button>
+                </div>`;
+            });
+        });
+
+        onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "desc")), (snap) => {
+            const list = document.getElementById('admin-cert-list');
+            list.innerHTML = "";
+            if(snap.empty) list.innerHTML = "<p style='color:#777; text-align:center;'>Belum ada data</p>";
+            snap.forEach(res => {
+                const d = res.data();
+                list.innerHTML += `
+                <div class="list-item">
+                    <span>${d.nama}</span>
+                    <button class="btn-danger" onclick="deleteData('sertifikat', '${res.id}')">Hapus</button>
+                </div>`;
             });
         });
 
         window.logout = () => { sessionStorage.clear(); location.reload(); };
+        
+        // Auto Login Check
         if(sessionStorage.getItem("yudi_auth") === "true") {
             document.getElementById('loginSection').style.display='none';
             document.getElementById('adminContent').style.display='block';
