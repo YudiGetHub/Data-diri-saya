@@ -4,80 +4,287 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV Digital - Nur Wahyudi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f5f6fa; --text: #333; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--text); line-height: 1.6; }
-        .container { max-width: 800px; margin: auto; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .header { background: var(--primary); color: white; padding: 40px 20px; text-align: center; }
-        .profile-img { width: 130px; height: 130px; border-radius: 50%; border: 4px solid white; margin-bottom: 15px; object-fit: cover; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header h1 { margin: 0; font-size: 2.2em; letter-spacing: 2px; text-transform: uppercase; }
-        .header p { opacity: 0.9; margin: 5px 0 20px 0; font-weight: 300; font-size: 1.1em; }
-        .contact-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: 0.85em; }
-        .contact-bar a { color: #ecf0f1; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; transition: 0.3s; background: rgba(255,255,255,0.05); }
-        .contact-bar a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
-        
-        .content { padding: 30px; }
-        .section { margin-bottom: 35px; }
-        .section-title { border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 15px; color: var(--primary); font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-        
-        .skill-container { display: flex; flex-wrap: wrap; gap: 8px; }
-        .skill-tag { background: #e1f5fe; color: #01579b; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
-        .soft-skill-tag { background: #f1f2f6; color: #2f3542; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 500; }
-        
-        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 10px; }
-        .cert-item { text-align: center; }
-        .cert-item img { width: 100%; border-radius: 8px; border: 1px solid #ddd; transition: 0.3s; cursor: pointer; }
-        .cert-item img:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .cert-item p { font-size: 0.75em; margin-top: 5px; color: #666; }
+        :root {
+            --primary: #252836; /* Dark elegant */
+            --accent: #00D9A5; /* Tosca/Mint */
+            --accent-dark: #00b386;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
 
-        .btn-exp { background: var(--accent); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: bold; transition: 0.3s; width: 100%; text-transform: uppercase; margin-top: 10px; }
+        * { box-sizing: border-box; outline: none; }
         
-        /* MODAL DENGAN TEKS TENGAH DAN SEJAJAR */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; padding: 20px 0; }
-        .modal-content { 
-            background: white; 
-            margin: 20px auto; 
-            padding: 40px 30px; /* Padding ditingkatkan agar teks tidak menempel */
-            width: 85%; 
-            max-width: 500px; 
-            border-radius: 12px; 
-            position: relative; 
-            animation: slideDown 0.3s; 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1a1a2e;
             color: #333;
-            padding-bottom: 60px;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
         }
-        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Background Decoration */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,217,165,0.1) 0%, rgba(0,0,0,0) 70%);
+            animation: rotate 60s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1F1D2B 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 20px;
+            background: #fff; border-radius: 50% 50% 0 0;
+        }
+
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+            object-fit: cover;
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        .profile-img:hover { transform: scale(1.05); }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .header p {
+            opacity: 0.9;
+            margin: 10px 0 25px 0;
+            font-weight: 300;
+            font-size: 1.1em;
+            color: var(--accent);
+        }
+
+        .contact-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.9em;
+        }
+        .contact-bar a {
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.05);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contact-bar a:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,217,165,0.3);
+        }
+
+        /* Content */
+        .content { padding: 40px 30px; }
+
+        .section { margin-bottom: 40px; }
+        .section-title {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 5px;
+            height: 24px;
+            background: var(--accent);
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+
+        .skill-container { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag {
+            background: rgba(0,217,165,0.1);
+            color: #009167;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid rgba(0,217,165,0.2);
+        }
+        .soft-skill-tag {
+            background: #f0f2f5;
+            color: #555;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        /* Certificates */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .cert-item {
+            text-align: center;
+            transition: 0.3s;
+        }
+        .cert-item:hover { transform: translateY(-5px); }
+        .cert-item img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: #f5f5f5;
+        }
+        .cert-item p {
+            font-size: 0.8em;
+            margin-top: 8px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Button Experience */
+        .btn-exp {
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: 0.3s;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(0,217,165,0.2);
+        }
+        .btn-exp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0,217,165,0.4);
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #fff;
+            margin: 40px auto;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            position: relative;
+            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
-        .exp-item { 
-            border-bottom: 1px solid #eee; 
-            padding-bottom: 20px; 
-            margin-bottom: 20px; 
-            /* Memastikan teks item berada di tengah wadahnya */
-            text-align: center; 
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 30px;
+            font-weight: 300;
+            color: #ccc;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .exp-item:last-child { border-bottom: none; }
-        .exp-item h4 { margin: 0; color: var(--primary); font-size: 1.1em; line-height: 1.4; }
-        .exp-item span { font-size: 0.85em; color: var(--accent); font-weight: bold; display: block; margin: 5px 0; }
-        .exp-item p { 
-            margin: 10px auto 0 auto; 
-            font-size: 0.9em; 
-            color: #555; 
-            text-align: left; /* Deskripsi tetap rata kiri agar mudah dibaca */
-            max-width: 90%; /* Membatasi lebar teks agar ada margin otomatis di kiri-kanan */
-            line-height: 1.5;
+        .close-btn:hover { color: var(--primary); }
+
+        .modal-title {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 1.5em;
         }
+
+        /* Experience Items */
+        .exp-item {
+            background: #f9fafb;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .exp-item:hover {
+            background: #f0f7f5;
+            transform: translateX(5px);
+        }
+        .exp-item h4 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.1em; }
+        .exp-item .company { font-size: 0.9em; color: var(--accent); font-weight: 600; display: block; margin-bottom: 5px; }
+        .exp-item .year { font-size: 0.8em; color: #888; background: #e0e0e0; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .exp-item p { margin: 0; font-size: 0.9em; color: #555; line-height: 1.6; }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <img id="main-foto" src="https://via.placeholder.com/130" class="profile-img">
+            <img id="main-foto" src="https://via.placeholder.com/140" class="profile-img">
             <h1 id="main-nama">NUR WAHYUDI</h1>
-            <p id="main-slogan">Memuat...</p>
+            <p id="main-slogan">Memuat data...</p>
             <div class="contact-bar">
                 <a href="mailto:Yudi02012001@gmail.com">📧 Email</a>
-                <a href="https://wa.me/62881024040191" target="_blank">💬 WA</a>
+                <a href="https://wa.me/62881024040191" target="_blank">💬 WhatsApp</a>
                 <a href="https://portofolio-nur-wahyudi.vercel.app/" target="_blank">🌐 Portfolio</a>
             </div>
         </div>
@@ -85,11 +292,11 @@
         <div class="content">
             <div class="section">
                 <h3 class="section-title">Tentang Saya</h3>
-                <p id="main-bio">Memuat informasi...</p>
+                <p id="main-bio" style="color: #555; text-align: justify;">Memuat informasi...</p>
             </div>
 
             <div class="section">
-                <h3 class="section-title">Keahlian & Kompetensi</h3>
+                <h3 class="section-title">Keahlian Teknis</h3>
                 <div class="skill-container" id="hard-skills-container"></div>
             </div>
 
@@ -103,7 +310,7 @@
                 <div class="cert-grid" id="cert-container"></div>
             </div>
 
-            <div class="section" style="margin-top: 40px;">
+            <div class="section" style="margin-top: 50px;">
                 <button class="btn-exp" onclick="openModal()">Lihat Pengalaman Kerja</button>
             </div>
         </div>
@@ -111,13 +318,9 @@
 
     <div id="expModal" class="modal">
         <div class="modal-content">
-            <span style="float:right; cursor:pointer; font-size:28px; font-weight:bold;" onclick="closeModal()">&times;</span>
-            <h2 style="color: var(--primary); margin: 0 auto 20px auto; text-align: center;">Riwayat Pekerjaan</h2>
-            <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 25px;">
-            
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title">Riwayat Pekerjaan</h2>
             <div id="riwayat-list"></div>
-            
-            <div style="height: 40px;"></div> 
         </div>
     </div>
 
@@ -137,16 +340,18 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Load Profile
         onSnapshot(doc(db, "settings", "profil"), (s) => {
             if(s.exists()){
                 const d = s.data();
                 document.getElementById('main-nama').innerText = d.nama || "NUR WAHYUDI";
-                document.getElementById('main-slogan').innerText = d.slogan || "";
-                document.getElementById('main-bio').innerText = d.bio || "";
-                document.getElementById('main-foto').src = d.foto || "https://via.placeholder.com/130";
+                document.getElementById('main-slogan').innerText = d.slogan || "Tidak ada slogan";
+                document.getElementById('main-bio').innerText = d.bio || "Tidak ada bio";
+                document.getElementById('main-foto').src = d.foto || "https://via.placeholder.com/140";
             }
         });
 
+        // Load Skills
         onSnapshot(query(collection(db, "skills"), orderBy("createdAt", "asc")), (snap) => {
             const hardBox = document.getElementById('hard-skills-container');
             const softBox = document.getElementById('soft-skills-container');
@@ -160,33 +365,49 @@
             });
         });
         
-        onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "asc")), (snap) => {
+        // Load Certificates
+        onSnapshot(query(collection(db, "sertifikat"), orderBy("createdAt", "desc")), (snap) => {
             const box = document.getElementById('cert-container');
             box.innerHTML = "";
+            if(snap.empty) box.innerHTML = "<p style='color:#777'>Belum ada sertifikat.</p>";
             snap.forEach(res => {
                 const d = res.data();
-                box.innerHTML += `<div class="cert-item"><a href="${d.link}" target="_blank"><img src="${d.link}"></a><p>${d.nama}</p></div>`;
+                box.innerHTML += `
+                <div class="cert-item">
+                    <a href="${d.link}" target="_blank"><img src="${d.link}" onerror="this.src='https://via.placeholder.com/150'"></a>
+                    <p>${d.nama}</p>
+                </div>`;
             });
         });
 
+        // Load Experiences
         onSnapshot(query(collection(db, "pengalaman"), orderBy("createdAt", "desc")), (snap) => {
             const list = document.getElementById('riwayat-list');
-            list.innerHTML = ""; 
+            list.innerHTML = "";
+            if(snap.empty) list.innerHTML = "<p style='text-align:center; color:#777;'>Belum ada pengalaman.</p>";
             snap.forEach(res => {
                 const d = res.data();
                 list.innerHTML += `
                     <div class="exp-item">
                         <h4>${d.posisi}</h4>
-                        <span style="color:#7f8c8d;">${d.perusahaan}</span>
-                        <span>${d.tahun}</span>
+                        <span class="company">${d.perusahaan}</span>
+                        <span class="year">${d.tahun}</span>
                         <p>${d.deskripsi}</p>
                     </div>`;
             });
         });
 
-        window.openModal = () => { document.getElementById("expModal").style.display = "block"; document.body.style.overflow = "hidden"; }
-        window.closeModal = () => { document.getElementById("expModal").style.display = "none"; document.body.style.overflow = "auto"; }
-        window.onclick = (event) => { if (event.target == document.getElementById("expModal")) closeModal(); }
+        window.openModal = () => { 
+            document.getElementById("expModal").style.display = "block"; 
+            document.body.style.overflow = "hidden"; 
+        }
+        window.closeModal = () => { 
+            document.getElementById("expModal").style.display = "none"; 
+            document.body.style.overflow = "auto"; 
+        }
+        window.onclick = (event) => { 
+            if (event.target == document.getElementById("expModal")) closeModal(); 
+        }
     </script>
 </body>
 </html>
